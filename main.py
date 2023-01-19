@@ -6,7 +6,7 @@ import json
 
 api_id = 1929910
 api_hash = "1704dcf01194bef12e3da2f3aeb5f096"
-bot_token = "5453818561:AAGwnGWQ8v90HU8sRCVtk0jxknNaQudSVF8"
+bot_token = "token"
 
 app = Client(
     "ivanovogidbot",
