@@ -169,29 +169,28 @@ def send_about(bot, call):
 def callback_handler(bot, call):
     data = from_callback_data(call.data)
     print('\n' + str(call.message.chat.id) + ' has pressed ' + json.dumps(data) + '\n')
-    match data['section']:
-        case 'to_main_menu':
-            send_main_menu(bot, call.message, False)
-        case 'to_location':
-            send_location(bot, call)
-        case 'to_categories':
-            send_categories(bot, call, data['city'], data['page'])
-        case 'to_sights':
-            if data['to_delete'] is not None:
-                bot.delete_messages(call.message.chat.id, data['to_delete'])
-            send_sights(bot, call, data['category_id'], data['city'], data['page'], data['categories_page'])
-        case 'to_sight':
-            send_sight(bot, call, data['sight_id'], data['categories_page'], data['sights_page'])
-        case 'to_confirm_delete_sight':
-            if data['to_delete'] is not None:
-                bot.delete_messages(call.message.chat.id, data['to_delete'])
-            send_confirm_delete_sight(bot, call, data['sight_id'], data['categories_page'], data['sights_page'])
-        case 'to_delete_sight':
-            delete_sight(bot, call, data['sight_id'], data['categories_page'], data['sights_page'])
-        case 'to_add_new':
-            send_add_new(bot, call)
-        case 'to_about':
-            send_about(bot, call)
+    if data['section'] == 'to_main_menu':
+        send_main_menu(bot, call.message, False)
+    if data['section'] == 'to_location':
+        send_location(bot, call)
+    if data['section'] == 'to_categories':
+        send_categories(bot, call, data['city'], data['page'])
+    if data['section'] == 'to_sights':
+        if data['to_delete'] is not None:
+            bot.delete_messages(call.message.chat.id, data['to_delete'])
+        send_sights(bot, call, data['category_id'], data['city'], data['page'], data['categories_page'])
+    if data['section'] == 'to_sight':
+        send_sight(bot, call, data['sight_id'], data['categories_page'], data['sights_page'])
+    if data['section'] == 'to_confirm_delete_sight':
+        if data['to_delete'] is not None:
+            bot.delete_messages(call.message.chat.id, data['to_delete'])
+        send_confirm_delete_sight(bot, call, data['sight_id'], data['categories_page'], data['sights_page'])
+    if data['section'] == 'to_delete_sight':
+        delete_sight(bot, call, data['sight_id'], data['categories_page'], data['sights_page'])
+    if data['section'] == 'to_add_new':
+        send_add_new(bot, call)
+    if data['section'] == 'to_about':
+        send_about(bot, call)
 
 
 @app.on_message(~filters.command(['start', 'main_menu']))
