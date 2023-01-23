@@ -1,12 +1,14 @@
+import os
+
 from pyrogram import types, Client, filters, enums
 from db import *
 from datetime import date
 import json
 
 
-api_id = 1929910
-api_hash = "1704dcf01194bef12e3da2f3aeb5f096"
-bot_token = "token"
+api_id = os.getenv('API_ID')
+api_hash = os.getenv('API_HASH')
+bot_token = os.getenv('BOT_TOKEN')
 
 app = Client(
     "ivanovogidbot",
