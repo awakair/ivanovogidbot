@@ -20,8 +20,6 @@ admins = [965840090]
 
 @app.on_message(filters.command(['main_menu', 'start']))
 def send_main_menu(bot, message, new_message=True):
-    if message.from_user.username == 'ivanovogidbot':
-        return
     to_sights = types.InlineKeyboardButton('К достопримечательностям', callback_data=to_callback_data({"section": 'to_location'}))
     to_add_new = types.InlineKeyboardButton('Добавить новое' if message.chat.id in admins else 'Хочу предложить что-то свое', callback_data=to_callback_data({"section": 'to_add_new'}))
     to_about = types.InlineKeyboardButton('О боте', callback_data=to_callback_data({"section": 'to_about'}))
@@ -173,33 +171,39 @@ def callback_handler(bot, call):
     print('\n' + str(call.message.chat.id) + ' has pressed ' + json.dumps(data) + '\n')
     if data['section'] == 'to_main_menu':
         send_main_menu(bot, call.message, False)
+        return
     if data['section'] == 'to_location':
         send_location(bot, call)
+        return
     if data['section'] == 'to_categories':
         send_categories(bot, call, data['city'], data['page'])
+        return
     if data['section'] == 'to_sights':
         if data['to_delete'] is not None:
             bot.delete_messages(call.message.chat.id, data['to_delete'])
         send_sights(bot, call, data['category_id'], data['city'], data['page'], data['categories_page'])
+        return
     if data['section'] == 'to_sight':
         send_sight(bot, call, data['sight_id'], data['categories_page'], data['sights_page'])
+        return
     if data['section'] == 'to_confirm_delete_sight':
         if data['to_delete'] is not None:
             bot.delete_messages(call.message.chat.id, data['to_delete'])
         send_confirm_delete_sight(bot, call, data['sight_id'], data['categories_page'], data['sights_page'])
+        return
     if data['section'] == 'to_delete_sight':
         delete_sight(bot, call, data['sight_id'], data['categories_page'], data['sights_page'])
+        return
     if data['section'] == 'to_add_new':
         send_add_new(bot, call)
+        return
     if data['section'] == 'to_about':
         send_about(bot, call)
+        return
 
 
 @app.on_message(~filters.command(['start', 'main_menu']))
 async def error_404(bot, message):
-    if message.from_user.username == 'ivanovogidbot':
-        return
-
     print('##### MESSAGE IN FUNCTION ERROR_404 #####\n\n')
     print(message)
     print('\n\n#####')
