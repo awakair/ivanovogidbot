@@ -20,6 +20,8 @@ admins = [965840090]
 
 @app.on_message(filters.command(['main_menu', 'start']))
 def send_main_menu(bot, message, new_message=True):
+    if message.from_user.username == 'ivanovogidbot':
+        return
     to_sights = types.InlineKeyboardButton('К достопримечательностям', callback_data=to_callback_data({"section": 'to_location'}))
     to_add_new = types.InlineKeyboardButton('Добавить новое' if message.chat.id in admins else 'Хочу предложить что-то свое', callback_data=to_callback_data({"section": 'to_add_new'}))
     to_about = types.InlineKeyboardButton('О боте', callback_data=to_callback_data({"section": 'to_about'}))
@@ -195,6 +197,8 @@ def callback_handler(bot, call):
 
 @app.on_message(~filters.command(['start', 'main_menu']))
 async def error_404(bot, message):
+    if message.from_user.username == 'ivanovogidbot':
+        return
 
     print('##### MESSAGE IN FUNCTION ERROR_404 #####\n\n')
     print(message)
