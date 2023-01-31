@@ -156,7 +156,7 @@ def send_add_new(bot, call):
 
 
 def send_about(bot, call):
-    to_source_code = types.InlineKeyboardButton('Исходный код', url='github.com')
+    to_source_code = types.InlineKeyboardButton('Исходный код', url='https://github.com/awakair/ivanovogidbot')
     to_main_menu = types.InlineKeyboardButton('Назад', callback_data=to_callback_data({"section": 'to_main_menu'}))
     markup = types.InlineKeyboardMarkup([[to_source_code], [to_main_menu]])
 
